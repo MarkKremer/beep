@@ -185,15 +185,20 @@ func (s *Player) SetVolume(v float64) {
 	s.p.SetVolume(v)
 }
 
-// UnplayedBufferSize returns the byte size in the underlying buffer that is not played yet.
-func (s *Player) UnplayedBufferSize() int {
-	return s.p.UnplayedBufferSize()
+//// UnplayedBufferSize returns the byte size in the underlying buffer that is not played yet.
+//func (s *Player) UnplayedBufferSize() int {
+//	return s.p.UnplayedBufferSize()
+//}
+
+// UnplayedSamplesInBuffer returns the number of samples in the underlying buffer that is not played yet.
+func (s *Player) UnplayedSamplesInBuffer() int {
+	return s.p.UnplayedBufferSize() / bytesPerSample
 }
 
 // SamplesPlayed returns the total number of samples played through this player.
 // If the player is in a paused state, this will not increase.
 func (s *Player) SamplesPlayed() int {
-	return s.r.num - s.p.UnplayedBufferSize() / bytesPerSample
+	return s.r.num - s.UnplayedSamplesInBuffer()
 }
 
 // DurationPlayed returns the playtime of this player based on the samples played and
